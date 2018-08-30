@@ -6,9 +6,11 @@ var bitcore = module.exports;
 bitcore.version = 'v' + require('./package.json').version;
 bitcore.versionGuard = function(version) {
   if (version !== undefined) {
-    var message = 'More than one instance of dashcore-lib found. ' +
-      'Please make sure that you are not mixing instances of classes of the different versions of dashcore.';
-    console.warn(message);
+    var message = 'More than one instance of bitcore-lib-btcp found. ' +
+      'Please make sure to require bitcore-lib-btcp and check that submodules do ' +
+      'not also include their own bitcore-lib-btcp dependency.';
+    // TODO: put this back if we start versioning again (?)
+    //throw new Error(message);
   }
 };
 bitcore.versionGuard(global._bitcore);
@@ -53,10 +55,8 @@ bitcore.PrivateKey = require('./lib/privatekey');
 bitcore.PublicKey = require('./lib/publickey');
 bitcore.Script = require('./lib/script');
 bitcore.Transaction = require('./lib/transaction');
-bitcore.GovObject = require('./lib/govobject');
 bitcore.URI = require('./lib/uri');
 bitcore.Unit = require('./lib/unit');
-bitcore.Message = require('./lib/message')
 
 // dependencies, subject to change
 bitcore.deps = {};
@@ -67,4 +67,5 @@ bitcore.deps.elliptic = require('elliptic');
 bitcore.deps._ = require('lodash');
 
 // Internal usage, exposed for testing/advanced tweaking
+bitcore._HDKeyCache = require('./lib/hdkeycache');
 bitcore.Transaction.sighash = require('./lib/transaction/sighash');
